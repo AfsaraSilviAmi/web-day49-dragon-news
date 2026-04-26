@@ -22,8 +22,8 @@ const NewsDetailsPage = async({params}) => {
     const {id} = await params;
     const news = await getNewsDetailsById(id);
     return (
-        <div>
-            News Details Page
+        <div className='text-center'>
+          <h1 className='text-2xl font-bold'>News Details Page</h1>
             <div>
                        <div className="card bg-base-100 shadow-sm max-w-4xl mx-auto">
               <div className="card-body">
