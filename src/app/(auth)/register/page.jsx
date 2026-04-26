@@ -1,7 +1,8 @@
 'use client'
 import { authClient } from '@/lib/auth-client';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const RegisterPage = () => {
     const {
@@ -10,7 +11,8 @@ const RegisterPage = () => {
         formState: { errors },
       } = useForm()
     
-      
+     const [showPassword, setShowPassword] = useState(false);
+
         const handleRegister = async(data) =>{
             const {name, photo, email, password} = data;
           
@@ -53,8 +55,12 @@ if(res){
           {errors.email && <p className='text-red-500'>{errors.email.message}</p>}
 
           <label className="font-semibold text-lg">Password</label>
-          <input type="password" {...register("password", { required: "Password field is required" })} className="input w-[95%] bg-gray-100" placeholder="Enter your password" />
-          {errors.password && <p className='text-red-500'>{errors.password.message}</p>}
+          <div className='relative'>
+            <input type={showPassword? "text" : "password"} {...register("password", { required: "Password field is required" })} className="input w-[95%] bg-gray-100" placeholder="Enter your password" />
+            <span className='absolute top-4 right-9' onClick={()=>setShowPassword(!showPassword)}>{showPassword? <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>} </span>
+             {errors.password && <p className='text-red-500'>{errors.password.message}</p>}
+          </div>
+         
 
          
           <button className="btn bg-gray-800 text-white mt-4">Register</button>

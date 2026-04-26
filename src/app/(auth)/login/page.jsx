@@ -1,8 +1,9 @@
 'use client'
 import { authClient } from '@/lib/auth-client';
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const LoginPage = () => {
    const {
@@ -11,7 +12,8 @@ const LoginPage = () => {
     formState: { errors },
   } = useForm()
 
-  
+  const [showPassword, setShowPassword] = useState(false);
+
     const handleLogin = async(data) =>{
       console.log(data);
       const { data:res, error } = await authClient.signIn.email({
@@ -43,8 +45,11 @@ const LoginPage = () => {
           {errors.email && <p className='text-red-500'>{errors.email.message}</p>}
 
           <label className="font-semibold text-lg">Password</label>
-          <input type="password" {...register("password", { required: "Password field is required" })} className="input w-[95%] bg-gray-100" placeholder="Enter your password" />
+          <div className='relative'>
+            <input type={showPassword? "text": "password"} {...register("password", { required: "Password field is required" })} className="input w-[95%] bg-gray-100" placeholder="Enter your password" />
+         <span className='absolute top-4 right-9' onClick={()=>setShowPassword(!showPassword)}>{showPassword? <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>} </span>
           {errors.password && <p className='text-red-500'>{errors.password.message}</p>}
+          </div>
 
          
           <button className="btn bg-gray-800 text-white mt-4">Login</button>
